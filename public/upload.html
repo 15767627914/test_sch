@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+</head>
+<body>
+	<form action="/upload" method="post" enctype="multipart/form-data">
+	<div class="main">
+	    <div class="upload-content">
+	        <h3>选择图片</h3>
+			
+	        <div class="content-img">
+	            <ul class="content-img-list"></ul>
+	            <div class="file">
+
+				  <i class="gcl gcladd"></i>
+					<input type="file" class="_text"  onchange="previewFile()"  name="file"  accept="image/*" id="upload" multiple/>
+					<br />
+
+	               <!-- <input type="file" name="file" accept="image/*" id="upload" multiple> -->
+	            </div>
+	        </div>
+	        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	            <div class="modal-dialog modal-lg" role="document">
+	                <div class="modal-content">
+	
+	                </div>
+	            </div>
+	        </div>
+			<input type="submit" value="上传文件" /> 
+	    </div>
+		<div id='box'>
+			<ul>
+				<!--插入图片-->
+				<li><img src="" height="200" width="200" alt="Image preview..."></li>
+			
+			</ul>
+			<!-- <div class='mark'></div>
+			<img src="img/2.jpg"  class='pic'>
+			<span>X</span> -->
+		</div>
+		 
+	</div>
+	
+	</form>
+	
+	<script type="text/javascript">
+		
+		function previewFile() {
+		 var preview = document.querySelector('img');
+		 var file  = document.querySelector('input[type=file]').files[0];
+		 var reader = new FileReader();
+		
+		 reader.addEventListener("load", function () {
+		  preview.src = reader.result;
+		 }, false);
+		
+		 if (file) {
+		  reader.readAsDataURL(file);
+		 }
+		}
+		
+		var lis=document.getElementsByTagName('li');
+			var box=document.getElementById('box');
+				//遍历所有的li,单击的是哪个li里的图片src 。
+				//	创建div  className='mark' 追加到box
+				//	创建img  src          className  追加到box
+				//	创建span  innerHTML=X  追加到box
+				for(var i=0;i<lis.length;i++){
+		
+					 lis[i].onclick=function(){
+						//console.log(this)
+						var  newDiv=document.createElement('div');
+							 newDiv.className='mark';
+							 box.appendChild(newDiv);
+						var  newImg=document.createElement('img');
+							 newImg.className='pic';
+							 newImg.src=this.getElementsByTagName('img')[0].src;
+							// newImg.src=this.childNodes[0].src;
+							 box.appendChild(newImg);
+						var newSpan=document.createElement("span");
+							newSpan.innerHTML='X';
+							box.appendChild(newSpan);
+
+							newSpan.onclick=function(){
+								box.removeChild(newDiv);
+								box.removeChild(newSpan);
+								box.removeChild(newImg);
+							}
+
+					 }
+
+			}
+	
+		
+	</script>
+</body>
+
+<style type="text/css">
+	.main {
+	    width: 80%;
+	    margin: 0 auto;
+		background-color: #E8E8E8;
+		
+	}
+	h1{
+		margin-left: 5%;
+	}
+	
+	.upload-content{
+	margin-left: 5%;
+	margin-top:5%;
+	}
+	input{
+		display: inline-block; 
+		margin-bottom: 20px;
+		border: 1px solid #ccc; padding: 7px 0px;
+	    padding-left:5px; 
+		width: 230px;
+	    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	    -webkit-transition: 
+		border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+	    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+	}
+	.text:focus{
+	    border-color: #66afe9; outline: 0;
+	    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+	    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+	}
+	ul,li{
+		margin:0;padding:0;list-style: none
+		}
+	#box{
+		width:600px; 
+		height:400px;
+		margin:20px auto;
+		position: relative;}
+	ul li{
+		float: left;width:200px;height:200px;
+		margin-left: 5%;
+		}
+	img{
+		width:100%;height:100%;
+		}
+	.mark{
+		width:600px;
+		height:400px; 
+		background:#000;
+		opacity: 0.5;
+		}
+			 /*修改pic的宽高,可调整图片大小*/
+	.pic{
+		width:300px;
+		height:300px; 
+		position: absolute;
+		left:150px;top:50px;
+		}
+	span{
+		position: absolute;
+		width:20px;
+		height:20px;
+		left:450px;
+		top:50px; 
+		background: #fff;
+		text-align: center;
+		}
+	
+	img[src=''],img:not([src]){
+		opacity: 0;
+	}
+</style>
+</html>
